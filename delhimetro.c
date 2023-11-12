@@ -120,7 +120,31 @@ void adduser() {
 }
 
 void removeuser() {
+      struct userlogindata * ptr = start, * temp;
+      char username[20];
+      int flag = 0;
 
+      printf("Enter the name of user to be removed: ");
+      scanf("%s", &username);
+
+      temp = start;
+      while(temp != NULL) {
+            if(strcmp(temp -> login_name, username) == 0) {
+                  ptr -> next = temp -> next;
+                  free(temp);
+                  flag = 1;
+                  break;
+            }
+            ptr = temp;
+            temp = temp -> next;
+      }
+
+      if(flag == 0) {
+            printf("User not found! Please check the spelling again...\n");
+      }
+      else {
+            printf("User found and removed!\n");
+      }
 }
 
 void updateuserlogin() {
