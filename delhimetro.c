@@ -58,7 +58,7 @@ int homepg() {
 void read_from_file() {
       FILE *f = fopen("userDataBase/UserData.txt", "r");
       struct userlogindata * ptr, * temp;
-      int a = 0;
+      int a = 0, c = 0;
 
       while(feof(f) == 0) {
             ptr = (struct userlogindata *)malloc(sizeof(struct userlogindata));
@@ -69,18 +69,18 @@ void read_from_file() {
                   a++;
             }
             else{
-                  /*
-                  temp = start;
-                  while(temp -> next != NULL) {
-                        temp = temp -> next;
-                  }
-                  */
                   temp->next = ptr;
                   temp = ptr;
             }
-            fscanf(f, "%s  %s  %c", &ptr -> login_name, &ptr -> login_psw, &ptr -> status);
+            fscanf(f, "%s %s %c", &ptr -> login_name, &ptr -> login_psw, &ptr -> status);
             ptr -> next = NULL;
       }
+
+      temp = start;
+      while(temp -> next != ptr)
+            temp = temp -> next;
+      temp->next = NULL;
+      free(ptr);
 
       fclose(f);
 }
@@ -182,9 +182,9 @@ void login() {
       
       char inp_name[20], inp_psw[20];
 
-      printf("*******************************************************************\n");
-      printf("\t\t\tUSER LOGIN\n");
-      printf("*******************************************************************\n");
+      printf("*************************************************************************************************************\n");
+      printf("\t\t\t\t\t\tUSER LOGIN\n");
+      printf("*************************************************************************************************************\n");
 
       char sup_user[] = {'s', 'u', 's', 'e', 'r', '\0'}, sup_psw[] = {'p', 'a', 's', 's', '1', '2', '3', '\0'};
 
@@ -199,7 +199,6 @@ void login() {
             printf("*");
       }
       inp_psw[i] = '\0';
-      //printf("%s", inp_psw);
 
       int inp_ans, flag = 1;
 
