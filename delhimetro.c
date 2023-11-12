@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include "user.h"
 
-struct userdata {
-      char name[20], psw[20], status;
+struct userlogindata {
+      char login_name[20], login_psw[20], status;
+      struct userlogindata * next;
 };
 
+struct userlogindata * start;
 
 /*
 int homepg() {
@@ -53,32 +55,68 @@ int homepg() {
 }
 */
 
-void adduser() {
-      char user_name[20], user_psw[20];
-      FILE *f = fopen("userDataBase/UserData.txt", "a");
+void read_from_file() {
+      FILE *f = fopen("userDataBase/UserData.txt", "r");
+      struct userlogindata * ptr, * temp;
+      int a = 0;
 
-      if(f == NULL) {
-            printf("Error!!");
-            exit(0);
+      while(feof(f) == 0) {
+            ptr = (struct userlogindata *)malloc(sizeof(struct userlogindata));
+
+            if(a == 0) {
+                  start = ptr;
+                  temp = ptr;
+                  a++;
+            }
+            else{
+                  /*
+                  temp = start;
+                  while(temp -> next != NULL) {
+                        temp = temp -> next;
+                  }
+                  */
+                  temp->next = ptr;
+                  temp = ptr;
+            }
+            fscanf(f, "%s  %s  %c", &ptr -> login_name, &ptr -> login_psw, &ptr -> status);
+            ptr -> next = NULL;
       }
-      
-      printf("Enter UserId: ");
-      scanf("%s", &user_name);
-      printf("Enter User Pasword: ");
-      scanf("%s", &user_psw);
 
-      /*
-      int i = 0; char ch;
-      while((ch = getch()) != '`') {
-            user_psw[i] = ch;
-            i++;
-            printf("*");
-      }
-      user_psw[i] = '\0';
-      */
-
-      fprintf(f, "%s  %s  a\n", user_name, user_psw);
       fclose(f);
+}
+
+void write_to_file() {
+      FILE *f = fopen("userDataBase/UserData.txt", "w");
+      struct userlogindata * ptr, * temp;
+
+      ptr = start;
+      temp = start;
+      while(ptr != NULL) {
+            fprintf(f, "%s  %s  %c\n", ptr -> login_name, ptr -> login_psw, ptr -> status);
+            ptr = ptr -> next;
+            free(temp);
+            temp = ptr;
+      }
+
+      fclose(f);
+}
+
+
+void adduser() {
+      struct userlogindata * ptr, * temp;
+      ptr = (struct userlogindata *)malloc(sizeof(struct userlogindata));
+      temp = start;
+      while(temp -> next != NULL)
+            temp = temp -> next;
+
+      temp -> next = ptr;
+      ptr -> status = 'a';
+      ptr -> next = NULL;
+      
+      printf("Enter User Id: ");
+      scanf("%s", &ptr -> login_name);
+      printf("Enter User Pasword: ");
+      scanf("%s", &ptr -> login_psw);
 }
 
 void removeuser() {
@@ -86,6 +124,7 @@ void removeuser() {
 }
 
 void updateuserlogin() {
+      /*
       int choice;
       char userda[20];
       FILE *f = fopen("userDataBase/UserData.txt", "a");
@@ -117,6 +156,7 @@ void updateuserlogin() {
             default:
                   break;
       }
+      */
 }
 
 void updateuserstatus() {
@@ -128,18 +168,18 @@ void moniteruser() {
 }
 
 void showuser() {
-      FILE *f = fopen("userDataBase/UserData.txt", "r");
-      struct userdata data;
+      struct userlogindata * ptr;
 
-      while(feof(f) == 0) {
-            fscanf(f, "%s  %s  %c", &data.name, &data.psw, &data.status);
-            printf("%s  %c\n", data.name, data.status);
+      ptr = start;
+      while(ptr != NULL) {
+            printf("%s  %c\n", ptr->login_name, ptr -> status);
+            ptr = ptr -> next;
       }
-
-      fclose(f);
 }
 
 void login() {
+      read_from_file();
+      
       char inp_name[20], inp_psw[20];
 
       printf("*******************************************************************\n");
@@ -218,13 +258,13 @@ void login() {
                               printf("Enter correct choice!!!");
                               break;
                   }
-                  //fflush(stdin);
             }
       } 
       else {
             printf("LoginFailed :( \n");
       }
 
+      write_to_file();
 }
 
 void main() {
