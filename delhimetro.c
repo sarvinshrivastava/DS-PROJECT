@@ -148,43 +148,55 @@ void removeuser() {
 }
 
 void updateuserlogin() {
-      /*
       int choice;
       char userda[20];
-      FILE *f = fopen("userDataBase/UserData.txt", "a");
-      struct userdata data;
-
-      rewind(f);
+      struct userlogindata * ptr = start;
 
       printf("What do you want to update?\n");
       printf("\t1-> UserID\n");
       printf("\t2-> UserPsw\n");
+      here:
       scanf("%d", &choice);
 
       switch (choice) {
             case 1:
-                  printf("Enter previous UserID");
+                  printf("Enter previous UserID: ");
                   scanf("%s", &userda);
 
-                  while (feof(f) == 0) {
-                        fscanf(f, "%s  %s  %c", &data.name, &data.psw, &data.status);
-                        if(strcmp(userda, data.name) == 0) {
-                              printf("Enter New User ID");
-                              scanf("%s", &data.name);
-                              
+                  while (ptr != NULL) {
+                        if(strcmp(userda, ptr -> login_name) == 0) {
+                              printf("Enter New User ID: ");
+                              scanf("%s", &ptr -> login_name);
                         }
+                        ptr = ptr -> next;
                   }
                   
                   break;
       
+            case 2:
+                  printf("Enter previous UserID: ");
+                  scanf("%s", &userda);
+
+                  while (ptr != NULL) {
+                        if(strcmp(userda, ptr -> login_psw) == 0) {
+                              printf("Enter New UserPsw: ");
+                              scanf("%s", &ptr -> login_psw);
+                        }
+                        ptr = ptr -> next;
+                  }
+
+                  break;
+            
             default:
+                  printf("Enter correct choice!!!");
+                  goto here;
                   break;
       }
-      */
+      
 }
 
 void updateuserstatus() {
-
+      
 }
 
 void moniteruser() {
