@@ -1,21 +1,23 @@
+// defining userlogin structure
 struct userlogindata {
       char login_name[20], login_psw[20], status;
       struct userlogindata * next;
 };
 
-struct userlogindata * start;
+struct userlogindata * start_user;
 
 
-void read_from_file() {
+// user functions
+void read_from_file_user() {
       FILE *f = fopen("userDataBase/UserData.txt", "r");
       struct userlogindata * ptr, * temp;
-      int a = 0, c = 0;
+      int a = 0;
 
       while(feof(f) == 0) {
             ptr = (struct userlogindata *)malloc(sizeof(struct userlogindata));
 
             if(a == 0) {
-                  start = ptr;
+                  start_user = ptr;
                   temp = ptr;
                   a++;
             }
@@ -27,7 +29,7 @@ void read_from_file() {
             ptr -> next = NULL;
       }
 
-      temp = start;
+      temp = start_user;
       while(temp -> next != ptr)
             temp = temp -> next;
       temp->next = NULL;
@@ -36,12 +38,12 @@ void read_from_file() {
       fclose(f);
 }
 
-void write_to_file() {
+void write_to_file_user() {
       FILE *f = fopen("userDataBase/UserData.txt", "w");
       struct userlogindata * ptr, * temp;
 
-      ptr = start;
-      temp = start;
+      ptr = start_user;
+      temp = start_user;
       while(ptr != NULL) {
             fprintf(f, "%s  %s  %c\n", ptr -> login_name, ptr -> login_psw, ptr -> status);
             ptr = ptr -> next;
@@ -52,11 +54,10 @@ void write_to_file() {
       fclose(f);
 }
 
-
 void adduser() {
       struct userlogindata * ptr, * temp;
       ptr = (struct userlogindata *)malloc(sizeof(struct userlogindata));
-      temp = start;
+      temp = start_user;
       while(temp -> next != NULL)
             temp = temp -> next;
 
@@ -71,14 +72,14 @@ void adduser() {
 }
 
 void removeuser() {
-      struct userlogindata * ptr = start, * temp;
+      struct userlogindata * ptr = start_user, * temp;
       char username[20];
       int flag = 0;
 
       printf("Enter the name of user to be removed: ");
       scanf("%s", &username);
 
-      temp = start;
+      temp = start_user;
       while(temp != NULL) {
             if(strcmp(temp -> login_name, username) == 0) {
                   ptr -> next = temp -> next;
@@ -101,7 +102,7 @@ void removeuser() {
 void updateuserlogin() {
       int choice;
       char userda[20];
-      struct userlogindata * ptr = start;
+      struct userlogindata * ptr = start_user;
 
       printf("What do you want to update?\n");
       printf("\t1-> UserID\n");
@@ -148,7 +149,7 @@ void updateuserlogin() {
 
 void updateuserstatus() {
       char userda[20];
-      struct userlogindata * ptr = start;
+      struct userlogindata * ptr = start_user;
       
       printf("Enter UserID: ");
       scanf("%s", &userda);
@@ -168,47 +169,34 @@ void moniteruser() {
 void showuser() {
       struct userlogindata * ptr;
 
-      ptr = start;
+      ptr = start_user;
       while(ptr != NULL) {
-            printf("%s  %c\n", ptr->login_name, ptr -> status);
+            printf("%s %s %c\n", ptr -> login_name, ptr -> login_psw, ptr -> status);
             ptr = ptr -> next;
       }
 }
 
-void login() {
-      read_from_file();
-      
-      char inp_name[20], inp_psw[20];
+void freelinkedlist() {
+      struct userlogindata * ptr1 = start_user, * ptr2;
 
-      printf("*************************************************************************************************************\n");
-      printf("\t\t\t\t\t\tUSER LOGIN\n");
-      printf("*************************************************************************************************************\n");
-
-      char sup_user[] = {'s', 'u', 's', 'e', 'r', '\0'}, sup_psw[] = {'p', 'a', 's', 's', '1', '2', '3', '\0'};
-
-      printf("Enter name: ");
-      scanf("%s", &inp_name);
-      printf("Enter pasword: ");
-
-      int i = 0; char ch;
-      while((ch = getch()) != ' ') {
-            inp_psw[i] = ch;
-            i++;
-            printf("*");
+      while(ptr1 != NULL) {
+            ptr2 = ptr1;
+            free(ptr2);
+            ptr1 = ptr1 -> next;
       }
-      inp_psw[i] = '\0';
+}
 
+int supperuserlogin() {
       int inp_ans, flag = 1;
 
-      if(strcmp(inp_name, sup_user) == 0 && strcmp(inp_psw, sup_psw) == 0) {
-            while(flag) {
+      while(flag) {
                   printf("\n\n\n");
                   printf("\t\t1. Add User\n");
                   printf("\t\t2. Delete User\n");
                   printf("\t\t3. Update User\n");
                   printf("\t\t5. Moniter User\n");
                   printf("\t\t6. Show Users\n");
-                  printf("\t\t7. Exit\n");
+                  printf("\t\t7. Return\n");
                   printf("\n\n\n");
 
                   scanf("%d", &inp_ans);
@@ -248,7 +236,7 @@ void login() {
                               showuser();
                               break;
                         case 7:
-                              flag = 0;
+                              return 0;
                               break;
                         
                         default:
@@ -256,10 +244,97 @@ void login() {
                               break;
                   }
             }
+}
+
+int userlogin() {
+      int X;
+
+      printf("***********************************************************\n");
+      printf("\t\t\tWelcome User\n");
+      printf("***********************************************************\n");
+
+      while(1) {
+            printf("\n\n\t\tMenu:\n");
+            printf("\t1. Consumer\n");
+            printf("\t2. Route\n");
+            printf("\t3. Return\n");
+
+            int choice;
+            scanf("%d", choice);
+            switch (choice) {
+            case 1:
+                  X = consumer();
+                  break;
+            case 2:
+                  route();
+                  break;
+            case 3:
+                  return 0;
+            
+            default:
+                  printf("Enter correct input!!!");
+                  break;
+            }
+      }
+}
+
+// main user function
+int login() {
+      int X;
+      char inp_name[20], inp_psw[20];
+
+      printf("*************************************************************************************************************\n");
+      printf("\t\t\t\t\t\tLOGIN\n");
+      printf("*************************************************************************************************************\n");
+
+      char sup_user[] = {'s', 'u', 's', 'e', 'r', '\0'}, sup_psw[] = {'p', 'a', 's', 's', '1', '2', '3', '\0'};
+
+      read_from_file_user();
+
+      while(1) 
+      { // never ending loop starts
+
+      printf("Enter name: ");
+      scanf("%s", &inp_name);
+      printf("Enter pasword: ");
+
+      int i = 0; char ch;
+      while((ch = getch()) != ' ') {
+            inp_psw[i] = ch;
+            i++;
+            printf("*");
+      }
+      inp_psw[i] = '\0';
+
+      if(strcmp(inp_name, sup_user) == 0 && strcmp(inp_psw, sup_psw) == 0) {
+            X = supperuserlogin();
+            write_to_file_user();
       } 
       else {
-            printf("LoginFailed :( \n");
+            struct userlogindata * temp = start_user;
+            int flag = 0;
+            
+            while(temp != NULL) {
+                  if(strcmp(temp -> login_name, inp_name) == 0 && strcmp(temp -> login_psw, inp_psw) == 0) {
+                        if(temp -> status == 'a') {
+                              X = userlogin();
+                              flag = 1;
+                        }
+                        else {
+                              printf("Entered user status is deactivated! Pls contact admin.");
+                              break;
+                        }
+                  }
+                  temp = temp -> next;
+            }
+
+            if(flag == 0) {
+                  printf("\nUser does not exist!!!\n");
+            }
+
+            freelinkedlist();
+            return 0;
       }
 
-      write_to_file();
+      } //never ending loop ends
 }
