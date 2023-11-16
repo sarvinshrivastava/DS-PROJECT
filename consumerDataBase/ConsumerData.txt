@@ -1,2 +1,1 @@
-Sarvin 500
-Dad 1000000000
+Sarvin  0

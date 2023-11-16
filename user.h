@@ -260,9 +260,10 @@ int userlogin() {
             printf("\t3. Return\n");
 
             int choice;
-            scanf("%d", choice);
+            scanf("%d", &choice);
             switch (choice) {
             case 1:
+                  printf("\nCalled consumer....\n");
                   X = consumer();
                   break;
             case 2:
@@ -309,6 +310,7 @@ int login() {
       if(strcmp(inp_name, sup_user) == 0 && strcmp(inp_psw, sup_psw) == 0) {
             X = supperuserlogin();
             write_to_file_user();
+            return 0;
       } 
       else {
             struct userlogindata * temp = start_user;
