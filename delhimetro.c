@@ -53,7 +53,7 @@ void homepage() {
                         printf("This is a console based project used for finding shortest route between 2 stations of Delhi Metro.\n");
                         break;
                   case 3:
-                        printf("I am Sarvin Shrivastava compleating my B.Tech degree from K.I.E.T Group of Institutions Ghaziabad in Computer Science and Enggniering branch.\n");
+                        printf("\tHello! I'm Sarvin Shrivastava, currently pursuing a B.Tech degree in Computer Science and Engineering at K.I.E.T Group of Institutions in Ghaziabad. My academic\nfocus provides a robust foundation in computer science, and I'm particularly intrigued by Augmented Reality (AR) and Virtual Reality (VR). Actively exploring these\nrealms, I'm excited about the transformative potential they hold.\n\n\tAlongside my tech pursuits, I'm in a learning phase in Machine Learning, eager to apply data-driven insights to real-world challenges. Beyond academics, my passion\n for photography allows me to capture and savor life's fleeting moments. Join me as I navigate the exciting intersections of computer science, AR/VR, Machine Learning,\n and the art of photography, eager to contribute and innovate in these dynamic fields.");
                         break;
                   case 4:
                         exit(0);
