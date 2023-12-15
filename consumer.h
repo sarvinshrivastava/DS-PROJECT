@@ -83,7 +83,7 @@ void removeconsumer() {
 
 void showconsumerbalance() {
       struct consumerdata * temp;
-      char username[20], choice;
+      char username[20], choice[2], str[2] = {'y', '\0'};
       int flag = 0;
       float amt;
 
@@ -105,10 +105,11 @@ void showconsumerbalance() {
       else {
             printf("Card balance of consumer is %d\n", temp -> account_balance);
             printf("Do you want to recharge it? y/n\n");
-            scanf("%c", &choice);
-            if(choice == 'y') {
+            scanf("%s", &choice);
+
+            if(strcmp(choice, str) == 0) {
                   printf("Enter the amount for recharge");
-                  scanf("%d", &amt);
+                  scanf("%f", &amt);
                   temp -> account_balance += amt;
             }
       }
@@ -135,6 +136,7 @@ void write_to_file_consumer() {
 int consumer() {
       int inp_ans;
 
+      printf("\n");
       printf("*************************************************************************************************************\n");
       printf("\t\t\t\t\t\tCONSUMER PAGE\n");
       printf("*************************************************************************************************************\n");

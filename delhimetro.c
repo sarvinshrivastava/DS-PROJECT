@@ -66,7 +66,8 @@ void homepage() {
 }
 
 // main function
-void main() {
+int main() {
       homepage();
 
+      return 1;
 }
