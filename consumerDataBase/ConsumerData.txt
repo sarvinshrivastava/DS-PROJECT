@@ -1,3 +1,3 @@
-Sarvin  0
-gupta  0
-mishraji  0
+sarvin	1063.000000
+gupta	10000.000000
+mom	100.000000

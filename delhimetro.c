@@ -8,12 +8,12 @@
 #define MIN_ACCOUNT_BALANCE -1000
 #define NEW_ACCOUNT_BALANCE 100
 
-// devloper defined header files
+// developer defined header files
 #include "route.h"
 #include "consumer.h"
 #include "user.h"
 
-// homepg function
+// homepage function
 void homepage() {
       int X;
       for(int i = 0; i < 2; i++) {
@@ -69,5 +69,5 @@ void homepage() {
 int main() {
       homepage();
 
-      return 1;
+      return 0;
 }

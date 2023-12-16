@@ -25,7 +25,7 @@ void read_from_file_consumer() {
                   temp->next = ptr;
                   temp = ptr;
             }
-            fscanf(f, "%s %f", &ptr -> name, &ptr -> account_balance);
+            fscanf(f, "%s\t%f", &ptr -> name, &ptr -> account_balance);
             ptr -> next = NULL;
       }
 
@@ -103,7 +103,7 @@ void showconsumerbalance() {
             printf("Consumer not found! Please check the spelling again...\n");
       }
       else {
-            printf("Card balance of consumer is %d\n", temp -> account_balance);
+            printf("Card balance of consumer is %f\n", temp -> account_balance);
             printf("Do you want to recharge it? y/n\n");
             scanf("%s", &choice);
 
@@ -120,13 +120,14 @@ void write_to_file_consumer() {
       struct consumerdata * ptr, * temp;
 
       ptr = start_consumer;
-      temp = start_consumer;
+      temp = ptr;
       while(ptr != NULL) {
-            fprintf(f, "%s  %d\n", ptr -> name, ptr -> account_balance);
+            fprintf(f, "%s\t%f\n", ptr -> name, ptr -> account_balance);
             ptr = ptr -> next;
             free(temp);
             temp = ptr;
       }
+      start_consumer = NULL;
 
       fclose(f);
 }
