@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 // universal constants
 #define MIN_ACCOUNT_BALANCE -1000

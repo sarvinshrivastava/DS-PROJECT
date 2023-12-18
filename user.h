@@ -163,7 +163,14 @@ void updateuserstatus() {
 }
 
 void moniteruser() {
+      FILE *f = fopen("userLogs/Logs.txt", "r");
+      char a[1000], b[1000];
+      int c = 0;
 
+      while(feof(f) == 0) {
+            fscanf(f, "%s %d %s", a, c, b);
+            printf("%s %d %s\n", a, c, b);
+      }
 }
 
 void showuser() {
@@ -194,7 +201,7 @@ int supperuserlogin() {
                   printf("\t\t1. Add User\n");
                   printf("\t\t2. Delete User\n");
                   printf("\t\t3. Update User\n");
-                  printf("\t\t5. Moniter User\n");
+                  printf("\t\t5. Monitor User\n");
                   printf("\t\t6. Show Users\n");
                   printf("\t\t7. Return\n");
                   printf("\n\n\n");
@@ -249,7 +256,7 @@ int supperuserlogin() {
 int userlogin() {
       int X;
 
-      printf("\n");
+      printf("\n\n");
       printf("***********************************************************\n");
       printf("\t\t\tWelcome User\n");
       printf("***********************************************************\n");
