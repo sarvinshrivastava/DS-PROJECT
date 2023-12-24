@@ -9,6 +9,9 @@
 #define MIN_ACCOUNT_BALANCE -1000
 #define NEW_ACCOUNT_BALANCE 100
 
+//global variables
+char inp_name[20];
+
 // developer defined header files
 #include "route.h"
 #include "consumer.h"

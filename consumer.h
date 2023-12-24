@@ -87,6 +87,7 @@ void showconsumerbalance() {
       int flag = 0;
       float amt;
 
+      here:
       printf("Enter the name of consumer: ");
       scanf("%s", &username);
 
@@ -101,6 +102,7 @@ void showconsumerbalance() {
 
       if(flag == 0) {
             printf("Consumer not found! Please check the spelling again...\n");
+            goto here;
       }
       else {
             printf("Card balance of consumer is %f\n", temp -> account_balance);
@@ -132,6 +134,20 @@ void write_to_file_consumer() {
       fclose(f);
 }
 
+void write_to_file_log(char functioncalled[]) {
+      FILE *f = fopen("userLogs/Logs.txt", "a");
+
+      struct tm* local;
+      time_t t = time(NULL);
+
+      // Get the localtime
+      local = localtime(&t);
+
+      fprintf(f,"%s  -> %s  %s  \n", asctime(local), inp_name, functioncalled);
+
+      fclose(f);
+}
+
 
 // main consumer function
 int consumer() {
@@ -157,12 +173,15 @@ int consumer() {
             switch (inp_ans) {
                   case 1:
                         addconsumer();
+                        write_to_file_log("add user\0");
                         break;
                   case 2:
                         removeconsumer();
+                        write_to_file_log("remove user\0");
                         break;
                   case 3:
                         showconsumerbalance();
+                        write_to_file_log("show user\0");
                   case 4:
                         write_to_file_consumer();
                         return 0;

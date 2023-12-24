@@ -164,13 +164,14 @@ void updateuserstatus() {
 
 void moniteruser() {
       FILE *f = fopen("userLogs/Logs.txt", "r");
-      char a[1000], b[1000];
-      int c = 0;
+      char a[1000], b[1000], c[1000];
 
       while(feof(f) == 0) {
-            fscanf(f, "%s %d %s", a, c, b);
-            printf("%s %d %s\n", a, c, b);
+            fscanf(f, "%s%d%s", &a, &c, &b);
+            printf("%s\t%s\t%s\n", a, c, b);
       }
+
+      fclose(f);
 }
 
 void showuser() {
@@ -194,9 +195,14 @@ void freelinkedlist() {
 }
 
 int supperuserlogin() {
-      int inp_ans, flag = 1;
+      int inp_ans;
 
-      while(flag) {
+      printf("\n\n");
+      printf("***********************************************************\n");
+      printf("\t\t\tWelcome Boss\n");
+      printf("***********************************************************\n");
+
+      while(1) {
                   printf("\n\n\n");
                   printf("\t\t1. Add User\n");
                   printf("\t\t2. Delete User\n");
@@ -244,7 +250,6 @@ int supperuserlogin() {
                               break;
                         case 7:
                               return 0;
-                              break;
                         
                         default:
                               printf("Enter correct choice!!!");
@@ -270,8 +275,7 @@ int userlogin() {
             int choice;
             scanf("%d", &choice);
             switch (choice) {
-            case 1:
-                  printf("\nCalled consumer....\n");
+                  case 1:
                   X = consumer();
                   break;
             case 2:
@@ -290,9 +294,9 @@ int userlogin() {
 // main user function
 int login() {
       int X;
-      char inp_name[20], inp_psw[20];
+      char inp_psw[20];
 
-      printf("\n");
+      printf("\n\n");
       printf("*************************************************************************************************************\n");
       printf("\t\t\t\t\t\tLOGIN\n");
       printf("*************************************************************************************************************\n");
