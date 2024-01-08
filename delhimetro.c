@@ -14,7 +14,7 @@ char inp_name[20];
 
 // developer defined header files
 #include "route.h"
-#include "consumer.h"
+#include "customer.h"
 #include "user.h"
 
 // homepage function

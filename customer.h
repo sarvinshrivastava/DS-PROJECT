@@ -1,23 +1,27 @@
-// defining consumer structure
-struct consumerdata {
+// defining customer structure
+struct customerdata {
       char name[20];
       float account_balance;
-      struct consumerdata * next;
+      struct customerdata * next;
 };
 
-struct consumerdata * start_consumer;
+// declaring customer start point
+struct customerdata * start_customer;
 
-// consumer functions
-void read_from_file_consumer() {
-      FILE *f = fopen("consumerDataBase/ConsumerData.txt", "r");
-      struct consumerdata * ptr, * temp;
+// defining global variables
+char customerName[15];
+
+// customer functions
+void read_from_file_customer() {
+      FILE *f = fopen("customerDataBase/ConsumerData.txt", "r");
+      struct customerdata * ptr, * temp;
       int a = 0;
 
       while(feof(f) == 0) {
-            ptr = (struct consumerdata *)malloc(sizeof(struct consumerdata));
+            ptr = (struct customerdata *)malloc(sizeof(struct customerdata));
 
             if(a == 0) {
-                  start_consumer = ptr;
+                  start_customer = ptr;
                   temp = ptr;
                   a++;
             }
@@ -29,7 +33,7 @@ void read_from_file_consumer() {
             ptr -> next = NULL;
       }
 
-      temp = start_consumer;
+      temp = start_customer;
       while(temp -> next != ptr)
             temp = temp -> next;
       temp->next = NULL;
@@ -38,9 +42,9 @@ void read_from_file_consumer() {
       fclose(f);
 }
 
-void addconsumer() {
-      struct consumerdata * ptr = start_consumer, * pt;
-      pt = (struct consumerdata *)malloc(sizeof(struct consumerdata));
+void addcustomer() {
+      struct customerdata * ptr = start_customer, * pt;
+      pt = (struct customerdata *)malloc(sizeof(struct customerdata));
 
       while (ptr -> next != NULL) {
             ptr = ptr -> next;
@@ -48,18 +52,20 @@ void addconsumer() {
 
       printf("Enter the name: ");
       scanf("%s", &pt -> name);
+      strcpy(customerName, ptr -> name);
       pt -> account_balance = NEW_ACCOUNT_BALANCE;
       pt -> next = NULL;
       ptr -> next = pt;
 }
 
-void removeconsumer() {
-      struct consumerdata * ptr = start_consumer, * temp;
+void removecustomer() {
+      struct customerdata * ptr = start_customer, * temp;
       char username[20];
       int flag = 0;
 
-      printf("Enter the name of consumer to be removed: ");
+      printf("Enter the name of customer to be removed: ");
       scanf("%s", &username);
+      strcpy(customerName, username);
 
       temp = ptr;
       while(temp != NULL) {
@@ -81,17 +87,18 @@ void removeconsumer() {
       }
 }
 
-void showconsumerbalance() {
-      struct consumerdata * temp;
+void showcustomerbalance() {
+      struct customerdata * temp;
       char username[20], choice[2], str[2] = {'y', '\0'};
       int flag = 0;
       float amt;
 
       here:
-      printf("Enter the name of consumer: ");
+      printf("Enter the name of customer: ");
       scanf("%s", &username);
+      strcpy(customerName, username);
 
-      temp = start_consumer;
+      temp = start_customer;
       while(temp != NULL) {
             if(strcmp(temp -> name, username) == 0) {
                   flag = 1;
@@ -105,7 +112,7 @@ void showconsumerbalance() {
             goto here;
       }
       else {
-            printf("Card balance of consumer is %f\n", temp -> account_balance);
+            printf("Card balance of customer is %f\n", temp -> account_balance);
             printf("Do you want to recharge it? y/n\n");
             scanf("%s", &choice);
 
@@ -117,11 +124,11 @@ void showconsumerbalance() {
       }
 }
 
-void write_to_file_consumer() {
-      FILE *f = fopen("consumerDataBase/ConsumerData.txt", "w");
-      struct consumerdata * ptr, * temp;
+void write_to_file_customer() {
+      FILE *f = fopen("customerDataBase/ConsumerData.txt", "w");
+      struct customerdata * ptr, * temp;
 
-      ptr = start_consumer;
+      ptr = start_customer;
       temp = ptr;
       while(ptr != NULL) {
             fprintf(f, "%s\t%f\n", ptr -> name, ptr -> account_balance);
@@ -129,7 +136,7 @@ void write_to_file_consumer() {
             free(temp);
             temp = ptr;
       }
-      start_consumer = NULL;
+      start_customer = NULL;
 
       fclose(f);
 }
@@ -143,14 +150,14 @@ void write_to_file_log(char functioncalled[]) {
       // Get the localtime
       local = localtime(&t);
 
-      fprintf(f,"%s  -> %s  %s  \n", asctime(local), inp_name, functioncalled);
+      fprintf(f,"%s -> %s  %s  %s\n", asctime(local), inp_name, functioncalled, customerName);
 
       fclose(f);
 }
 
 
-// main consumer function
-int consumer() {
+// main customer function
+int customer() {
       int inp_ans;
 
       printf("\n");
@@ -158,7 +165,7 @@ int consumer() {
       printf("\t\t\t\t\t\tCONSUMER PAGE\n");
       printf("*************************************************************************************************************\n");
 
-      read_from_file_consumer();
+      read_from_file_customer();
 
       while(1) 
       { // never ending loop starts
@@ -172,18 +179,18 @@ int consumer() {
             scanf("%d", &inp_ans);
             switch (inp_ans) {
                   case 1:
-                        addconsumer();
+                        addcustomer();
                         write_to_file_log("add user\0");
                         break;
                   case 2:
-                        removeconsumer();
+                        removecustomer();
                         write_to_file_log("remove user\0");
                         break;
                   case 3:
-                        showconsumerbalance();
+                        showcustomerbalance();
                         write_to_file_log("show user\0");
                   case 4:
-                        write_to_file_consumer();
+                        write_to_file_customer();
                         return 0;
                         
                   default:

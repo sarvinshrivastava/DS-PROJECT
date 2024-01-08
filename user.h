@@ -164,11 +164,11 @@ void updateuserstatus() {
 
 void moniteruser() {
       FILE *f = fopen("userLogs/Logs.txt", "r");
-      char a[1000], b[1000], c[1000];
+      char a[25], b[20], c[20], d[20];
 
       while(feof(f) == 0) {
-            fscanf(f, "%s%d%s", &a, &c, &b);
-            printf("%s\t%s\t%s\n", a, c, b);
+            fscanf(f, "%s%s%s%s", &a, &c, &b);
+            printf("%s\t%s\t%s\n", a, c, b, d);
       }
 
       fclose(f);
@@ -276,7 +276,7 @@ int userlogin() {
             scanf("%d", &choice);
             switch (choice) {
                   case 1:
-                  X = consumer();
+                  X = customer();
                   break;
             case 2:
                   route();
